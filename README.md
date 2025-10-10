@@ -57,16 +57,21 @@ To make our model useful, we will implement a three-part system that represents 
 ## Project Structure
 
 ```
-heart-disease-api/
-├── model/
-│   ├── heart_disease_classifier.pkl  (created after training)
-│   ├── data_scaler.joblib          (created after training)
-│   └── feature_names.joblib        (created after training)
-├── heart_disease.csv
-├── model.py
-├── server.py
-├── train.py
-└── requirements.txt
+mlops-workshop-hackpsu/ 
+│ 
+├── model/ 
+│   ├── heart_disease.csv 
+│   └── train.py 
+│   └── heart_disease_classifier.pkl 
+│   └── data_scaler.joblib 
+│   └── feature_names.joblib 
+│ 
+├── .gitignore 
+├── Dockerfile 
+├── requirements.txt 
+├── server.py      # (PARTIALLY FILLED) 
+├── model.py      # (PARTIALLY FILLED)  
+└── test_api.py
 ```
 
 -----
@@ -76,8 +81,7 @@ heart-disease-api/
 ### 1\. Clone the Repository
 
 ```bash
-git clone <your-repository-url>
-cd heart-disease-api
+git clone clone https://github.com/NittanyAiAlliance/mlops-workshop-2025.git
 ```
 
 ### 2\. Create and Activate a Virtual Environment
@@ -100,25 +104,9 @@ python -m venv venv
 
 ### 3\. Install Dependencies
 
-Create a `requirements.txt` file with the following content:
-
-```txt
-fastapi==0.103.2
-uvicorn[standard]==0.23.2
-scikit-learn==1.3.1
-pandas==2.1.1
-joblib==1.3.2
-```
-
-Then, install the packages:
-
 ```bash
 pip install -r requirements.txt
 ```
-
-### 4\. Dataset
-
-Make sure the `heart_disease.csv` dataset is in the root directory of the project.
 
 -----
 
@@ -126,9 +114,9 @@ Make sure the `heart_disease.csv` dataset is in the root directory of the projec
 
 ### Step 1: Train the Model
 
-Run the training script to process the data and save the model artifacts. This will create the `model/` directory and its contents.
-
+Run the training script to process the data and save the model artifacts.
 ```bash
+cd model
 python train.py
 ```
 
