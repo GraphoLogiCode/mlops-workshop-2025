@@ -38,3 +38,163 @@ To make our model useful, we will implement a three-part system that represents 
     * It defines the API endpoints (like `/predict`).
     * It uses Pydantic models to validate incoming data, ensuring we don't get errors.
     * When a request comes in, it passes the validated data to our `model_pipeline` object and returns the prediction in a clean JSON format.
+  
+
+    Of course. Here is a comprehensive `README.md` file for your project.
+
+-----
+
+### Key Features
+
+  - **REST API**: Exposes the prediction model through a simple and robust API.
+  - **Data Validation**: Uses Pydantic to ensure all incoming data is in the correct format.
+  - **Model Training Pipeline**: A repeatable script (`train.py`) to preprocess data, train a classifier, and save the necessary artifacts.
+  - **Efficient**: The model and scaler are loaded only once when the server starts, ensuring low-latency predictions.
+  - **Interactive Documentation**: FastAPI automatically generates interactive API documentation (using Swagger UI).
+
+-----
+
+## Project Structure
+
+```
+heart-disease-api/
+├── model/
+│   ├── heart_disease_classifier.pkl  (created after training)
+│   ├── data_scaler.joblib          (created after training)
+│   └── feature_names.joblib        (created after training)
+├── heart_disease.csv
+├── model.py
+├── server.py
+├── train.py
+└── requirements.txt
+```
+
+-----
+
+## Setup and Installation
+
+### 1\. Clone the Repository
+
+```bash
+git clone <your-repository-url>
+cd heart-disease-api
+```
+
+### 2\. Create and Activate a Virtual Environment
+
+It's highly recommended to use a virtual environment to manage project dependencies.
+
+**On macOS/Linux:**
+
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
+
+**On Windows:**
+
+```bash
+python -m venv venv
+.\venv\Scripts\activate
+```
+
+### 3\. Install Dependencies
+
+Create a `requirements.txt` file with the following content:
+
+```txt
+fastapi==0.103.2
+uvicorn[standard]==0.23.2
+scikit-learn==1.3.1
+pandas==2.1.1
+joblib==1.3.2
+```
+
+Then, install the packages:
+
+```bash
+pip install -r requirements.txt
+```
+
+### 4\. Dataset
+
+Make sure the `heart_disease.csv` dataset is in the root directory of the project.
+
+-----
+
+## Usage
+
+### Step 1: Train the Model
+
+Run the training script to process the data and save the model artifacts. This will create the `model/` directory and its contents.
+
+```bash
+python train.py
+```
+
+### Step 2: Run the API Server
+
+Start the API server using Uvicorn.
+
+```bash
+uvicorn server:app --reload
+```
+
+The server will be running at `http://127.0.0.1:8000`. The `--reload` flag automatically restarts the server when you make changes to the code.
+
+### Step 3: Access the Interactive Docs
+
+Once the server is running, navigate to **`http://127.0.0.1:8000/docs`** in your browser to see the interactive API documentation. You can test the endpoints directly from this interface.
+
+-----
+
+## API Endpoints
+
+### Root
+
+  - **URL**: `/`
+  - **Method**: `GET`
+  - **Description**: A simple health check endpoint to confirm the API is running.
+  - **Success Response**:
+    ```json
+    {
+      "status": "ok",
+      "message": "Welcome to the Heart Disease Prediction API!"
+    }
+    ```
+
+### Predict
+
+  - **URL**: `/predict`
+  - **Method**: `POST`
+  - **Description**: Predicts heart disease for a batch of one or more patients.
+  - **Request Body**:
+    ```json
+    {
+      "data": [
+        {
+          "Age": 58,
+          "Sex": "M",
+          "ChestPainType": "ATA",
+          "RestingBP": 120,
+          "Cholesterol": 284,
+          "FastingBS": 0
+        },
+        {
+          "Age": 42,
+          "Sex": "F",
+          "ChestPainType": "NAP",
+          "RestingBP": 130,
+          "Cholesterol": 200,
+          "FastingBS": 1
+        }
+      ]
+    }
+    ```
+  - **Success Response**:
+    ```json
+    {
+      "predictions": [0, 1],
+      "probabilities": [0.12, 0.88]
+    }
+    ```
