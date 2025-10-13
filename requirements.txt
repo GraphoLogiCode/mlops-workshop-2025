@@ -1,0 +1,9 @@
+# FastAPI and Server
+fastapi
+uvicorn
+requests
+
+# Data Handling and Machine Learning
+pandas
+scikit-learn
+joblib
