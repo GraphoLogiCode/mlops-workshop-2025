@@ -10,7 +10,6 @@ To run this server, use the command: `uvicorn server:app --reload`
 # --- Core Imports ---
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-import uvicorn
 from typing import List, Dict, Any, Optional
 
 # --- Local Imports ---
@@ -28,7 +27,6 @@ app = FastAPI(
 class PredictionInput(BaseModel):
     """Defines the structure for a batch prediction request."""
     data: List[Dict[str, Any]]
-    true_labels: Optional[List[int]] = None
 
     class Config:
         json_schema_extra = {
@@ -36,8 +34,7 @@ class PredictionInput(BaseModel):
                 "data": [
                     {"Age": 58, "Sex": "M", "ChestPainType": "ATA", "RestingBP": 120, "Cholesterol": 284, "FastingBS": 0},
                     {"Age": 42, "Sex": "F", "ChestPainType": "NAP", "RestingBP": 130, "Cholesterol": 200, "FastingBS": 1}
-                ],
-                "true_labels": [0, 1]
+                ]
             }
         }
 
@@ -45,8 +42,6 @@ class PredictionResponse(BaseModel):
     """Defines the structure for the prediction response."""
     predictions: List[int]
     probabilities: List[float]
-    accuracy: Optional[float] = None
-    f1_score: Optional[float] = None
 
 # --- API Endpoints ---
 
@@ -69,14 +64,10 @@ def predict_heart_disease(payload: PredictionInput):
         #TODO: Implement the prediction endpoint logic.
         # Get predictions and probabilities from the model pipeline
         # 1. Call `model_pipeline.predict()` with `payload.data` to get predictions and probabilities.
-        # 2. If `payload.true_labels` is provided, call `model_pipeline.evaluate()` to get accuracy and F1 score.
-        # 3. Return a `PredictionResponse` containing predictions, probabilities, and optionally accuracy and F1 score.
+        # 3. Return a response containing predictions and probabilities
         return response
     
     except RuntimeError as e:
          raise HTTPException(status_code=503, detail=str(e))
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"An error occurred during prediction: {str(e)}")
-    
-if __name__ == "__main__":
-    uvicorn.run(app, host="127.0.0.1", port=8000)

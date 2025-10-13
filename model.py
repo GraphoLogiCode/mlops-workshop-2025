@@ -1,4 +1,3 @@
-# model.py
 """
 Handles the heart disease prediction model logic, including data preprocessing,
 prediction, and performance evaluation.
@@ -33,9 +32,8 @@ class HeartDiseaseModel:
         # TODO: Implement the data preprocessing steps.
         # 1. Convert the input `data` (a list of dictionaries) into a pandas DataFrame.
         # 2. Use pd.get_dummies() to one-hot encode categorical features.
-        # 3. Align the columns of the DataFrame with `self.feature_names` to ensure consistency,
-        #    filling any missing columns with 0.
-        # 4. Use `self.scaler` to transform the aligned data.
+        # 3. Use reindex() to ensure it has the same columns as `self.feature_names` and fill any missing columns with 0.
+        # 4. Use `self.scaler.transform` to transform the aligned data.
         # 5. Return the resulting scaled features.
         pass
 
@@ -44,11 +42,10 @@ class HeartDiseaseModel:
         Generates predictions and probabilities for the input data.
         """
         # TODO: Implement the prediction logic.
-        # 1. Check if the model and its artifacts (scaler, feature_names) are loaded. If not, raise a RuntimeError.
-        # 2. Call `self._preprocess_data()` with the input `data` to get the scaled features.
-        # 3. Use `self.model.predict()` on the scaled features to get predictions.
-        # 4. Use `self.model.predict_proba()` to get the prediction probabilities for the positive class (class 1).
-        # 5. Convert both predictions and probabilities to lists and return them as a tuple.
+        # 1. Call `self._preprocess_data()` with the input `data` to get the scaled features.
+        # 2. Use `self.model.predict()` on the scaled features to get predictions.
+        # 3. Use `self.model.predict_proba()` to get the prediction probabilities for the positive class (class 1).
+        # 4. Convert both predictions and probabilities to lists and return them as a tuple.
         pass
 
 
