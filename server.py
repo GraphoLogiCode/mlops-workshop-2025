@@ -1,4 +1,3 @@
-# server.py
 """
 FastAPI application server for heart disease prediction.
 
@@ -64,7 +63,7 @@ def predict_heart_disease(payload: PredictionInput):
         #TODO: Implement the prediction endpoint logic.
         # Get predictions and probabilities from the model pipeline
         # 1. Call `model_pipeline.predict()` with `payload.data` to get predictions and probabilities.
-        # 3. Return a response containing predictions and probabilities
+        # 2. Return a response containing predictions and probabilities
         return response
     
     except RuntimeError as e:
