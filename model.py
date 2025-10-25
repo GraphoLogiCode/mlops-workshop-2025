@@ -35,6 +35,11 @@ class HeartDiseaseModel:
         # 3. Use reindex() to ensure it has the same columns as `self.feature_names` and fill any missing columns with 0.
         # 4. Use `self.scaler.transform` to transform the aligned data.
         # 5. Return the resulting scaled features.
+        dataframe = pd.DataFrame(data)
+        dataframe2 = pd.get_dummies(dataframe)
+        dataframe3 = dataframe2.reindex(columns=self.feature_names, fill_value=0)
+        scaled_features = self.scaler.transform(dataframe3)
+        return pd.DataFrame(scaled_features, columns=self.feature_names)
         pass
 
     def predict(self, data: List[Dict[str, Any]]) -> Tuple[List[int], List[float]]:
@@ -46,6 +51,10 @@ class HeartDiseaseModel:
         # 2. Use `self.model.predict()` on the scaled features to get predictions.
         # 3. Use `self.model.predict_proba()` to get the prediction probabilities for the positive class (class 1).
         # 4. Convert both predictions and probabilities to lists and return them as a tuple.
+        processed_data = self._preprocess_data(data)
+        predictions = self.model.predict(processed_data)
+        probabilities = self.model.predict_proba(processed_data)[:, 1]
+        return predictions.tolist(), probabilities.tolist()
         pass
 
 

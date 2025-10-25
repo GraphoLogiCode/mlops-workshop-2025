@@ -64,6 +64,8 @@ def predict_heart_disease(payload: PredictionInput):
         # Get predictions and probabilities from the model pipeline
         # 1. Call `model_pipeline.predict()` with `payload.data` to get predictions and probabilities.
         # 2. Return a response containing predictions and probabilities
+        predictions, probabilities = model_pipeline.predict(payload.data)
+        response = PredictionResponse(predictions, probabilities)
         return response
     
     except RuntimeError as e:
